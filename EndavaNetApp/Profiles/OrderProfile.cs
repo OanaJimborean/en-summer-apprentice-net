@@ -4,8 +4,6 @@ using EndavaNetApp.Models.Dto;
 using EndavaNetApp.Models;
 
 namespace EndavaNetApp.Profiles;
-
-
 public class OrderProfile : Profile
 {
     public OrderProfile()

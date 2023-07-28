@@ -45,9 +45,9 @@ namespace EndavaNetApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult<OrderDto> GetByID(int id)
+        public async Task<ActionResult<OrderDto>> GetByID(int id)
         {
-            var @order = _orderRepository.GetById(id);
+            var @order = await _orderRepository.GetById(id);
 
             if (@order == null)
             {
@@ -62,9 +62,9 @@ namespace EndavaNetApp.Controllers
 
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var orderEntity = _orderRepository.GetById(id);
+            var orderEntity = await _orderRepository.GetById(id);
             if (orderEntity == null)
             {
                 return NotFound();
@@ -77,13 +77,11 @@ namespace EndavaNetApp.Controllers
         [HttpPatch]
         public async Task<ActionResult<OrderPatchDto>> Patch(OrderPatchDto orderPatch)
         {
-            var orderEntity = _orderRepository.GetById(orderPatch.OrderID);
+            var orderEntity = await _orderRepository.GetById(orderPatch.OrderID);
             if (orderEntity == null)
             {
                 return NotFound();
             }
-
-
 
             if (orderPatch.TicketCategoryid != 0)
             {

@@ -1,6 +1,8 @@
 ﻿using EndavaNetApp.Models;
 using EndavaNetApp.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Umbraco.Core.Persistence;
+using EndavaNetApp.Exceptions;
 
 namespace EndavaNetApp.RepositoriesImpl
 {
@@ -31,9 +33,12 @@ namespace EndavaNetApp.RepositoriesImpl
             return events;
         }
 
-        public Event GetById(int id)
+        public async Task<Event> GetById(int id)
         {
-            var @event = _dbContext.Events.Where(e => e.Eventid == id).FirstOrDefault();
+            var @event = await _dbContext.Events.Where(e => e.Eventid == id).FirstOrDefaultAsync();
+
+            if (@event == null)
+                throw new Exceptions.EntityNotFoundException(id, nameof(Event));
 
             return @event;
         }

@@ -20,11 +20,14 @@ namespace EndavaNetApp.Controllers
     {
         private readonly TicketManagementSystemContext _ticketManagementSystemContext;
         private readonly IEventRepository _eventRepository;
+        private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public EventController(IEventRepository eventRepository, IMapper mapper) {
+        public EventController(IEventRepository eventRepository, IMapper mapper, ILogger<EventController> logger)
+        {
             _eventRepository = eventRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -46,24 +49,26 @@ namespace EndavaNetApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult<EventDto> GetByID(int id)
+        public async Task<ActionResult<EventDto>> GetByID(int id)
         {
-            var @event = _eventRepository.GetById(id);
+        
+                var @event = await _eventRepository.GetById(id);
 
-            if (@event == null)
-            {
-                return NotFound();
-            }
+                /*if (@event == null)
+                {
+                    return NotFound();
+                }*/
 
-            var eventDto = _mapper.Map<EventDto>(@event);
+                var eventDto = _mapper.Map<EventDto>(@event);
 
-            return Ok(eventDto);
+                return Ok(eventDto);
         }
 
         [HttpPatch]
-        public ActionResult<EventPatchDto> Patch(EventPatchDto eventPatchDto)
+        public async Task<ActionResult<EventPatchDto>> Patch(EventPatchDto eventPatchDto)
         {
-            var eventEntity = _eventRepository.GetById(eventPatchDto.EventId);
+            if (eventPatchDto == null) throw new ArgumentNullException(nameof(eventPatchDto));
+            var eventEntity = await _eventRepository.GetById(eventPatchDto.EventId);
             if(eventEntity == null)
             {
                 return NotFound();
@@ -74,9 +79,9 @@ namespace EndavaNetApp.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var eventEntity = _eventRepository.GetById(id);
+            var eventEntity = await _eventRepository.GetById(id);
             if(eventEntity == null)
             {
                 return NotFound();

@@ -54,9 +54,17 @@
               "target": "Package",
               "version": "[7.0.9, )"
             },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.2.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "UmbracoCms.Core": {
+              "target": "Package",
+              "version": "[8.18.8, )"
             }
           },
           "imports": [

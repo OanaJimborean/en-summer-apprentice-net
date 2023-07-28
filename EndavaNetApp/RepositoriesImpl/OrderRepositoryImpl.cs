@@ -21,9 +21,9 @@ namespace EndavaNetApp.RepositoriesImpl
             return orders;
         }
 
-        public Order GetById(int id)
+        public async Task<Order> GetById(int id)
         {
-            var @order = _dbContext.Orders.Where(o => o.Orderid == id).FirstOrDefault();
+            var @order = await _dbContext.Orders.Where(o => o.Orderid == id).FirstOrDefaultAsync();
 
             return @order;
         }

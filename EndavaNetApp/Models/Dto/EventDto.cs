@@ -2,7 +2,6 @@
 {
     public class EventDto
     {
-
         public int EventID { get; set; }
         public string Venue { get; set; }
         public string EventType { get; set; }
