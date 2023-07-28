@@ -16,16 +16,18 @@ namespace EndavaNetApp.Controllers
         private readonly TicketManagementSystemContext _ticketManagementSystemContext;
         private readonly IOrderRepository _orderRepository;
         private readonly ITicketCategoryRepository _ticketCategoryRepository;
+        private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private EventController _eventController;
         private OrderDto orderDto;
         private Order order;
 
-        public OrderController(IOrderRepository orderRepository, IMapper mapper, ITicketCategoryRepository ticketCategoryRepository)
+        public OrderController(IOrderRepository orderRepository, IMapper mapper, ITicketCategoryRepository ticketCategoryRepository, ILogger<OrderController> logger)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _ticketCategoryRepository = ticketCategoryRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -49,10 +51,10 @@ namespace EndavaNetApp.Controllers
         {
             var @order = await _orderRepository.GetById(id);
 
-            if (@order == null)
+            /*if (@order == null)
             {
                 return NotFound();
-            }
+            }*/
 
             var orderDto = _mapper.Map<OrderDto>(@order);
 

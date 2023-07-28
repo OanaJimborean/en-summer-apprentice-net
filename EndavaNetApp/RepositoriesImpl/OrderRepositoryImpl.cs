@@ -3,6 +3,7 @@ using EndavaNetApp.Models;
 using EndavaNetApp.Models.Dto;
 using EndavaNetApp.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EndavaNetApp.RepositoriesImpl
 {
@@ -24,6 +25,9 @@ namespace EndavaNetApp.RepositoriesImpl
         public async Task<Order> GetById(int id)
         {
             var @order = await _dbContext.Orders.Where(o => o.Orderid == id).FirstOrDefaultAsync();
+
+            if (@order == null)
+                throw new Exceptions.EntityNotFoundException(id, nameof(Order));
 
             return @order;
         }
